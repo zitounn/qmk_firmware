@@ -100,7 +100,7 @@ qmk: $(BUILD_DIR)/$(TARGET).hex
 	zip $(TARGET).qmk -u $<
 	printf "@ $<\n@=firmware.hex\n" | zipnote -w $(TARGET).qmk
 	util/qmk_info.sh "$(KEYBOARD)" "$(KEYMAP)" "$(SUBPROJECT)" > $(BUILD_DIR)/$(TARGET).json
-	zip $(TARGET).qmk -uj $(BUILD_DIR)/$(TARGET).json
+	zip $(TARGET).qmk -urj $(BUILD_DIR)/$(TARGET).json
 	printf "@ $(TARGET).json\n@=info.json\n" | zipnote -w $(TARGET).qmk
 
 # Program the device.

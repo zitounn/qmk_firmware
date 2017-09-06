@@ -146,5 +146,14 @@ DEBUG = gdb
 # List any extra directories to look for libraries here.
 EXTRALIBDIRS = $(RULESPATH)/ld
 
+# Generate a .qmk for the QMK-FF
+qmk: $(BUILD_DIR)/$(TARGET).bin
+	zip $(TARGET).qmk -FSrj $(KEYMAP_PATH)/*
+	zip $(TARGET).qmk -u $<
+	printf "@ $<\n@=firmware.bin\n" | zipnote -w $(TARGET).qmk
+	util/qmk_info.sh "$(KEYBOARD)" "$(KEYMAP)" "$(SUBPROJECT)" > $(BUILD_DIR)/$(TARGET).json
+	zip $(TARGET).qmk -urj $(BUILD_DIR)/$(TARGET).json
+	printf "@ $(TARGET).json\n@=info.json\n" | zipnote -w $(TARGET).qmk
+
 dfu-util: $(BUILD_DIR)/$(TARGET).bin sizeafter
 	dfu-util -D $(BUILD_DIR)/$(TARGET).bin
